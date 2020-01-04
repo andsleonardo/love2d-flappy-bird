@@ -1,4 +1,4 @@
-local windowScalingFactor = 0.4
+local windowScalingFactor = 1
 
 local settings = {
   window = {
@@ -6,8 +6,8 @@ local settings = {
     fullscreen = false,
     resizable = false,
     vsync = 1,
-    width = 1280,
-    height = 720,
+    width = 992,
+    height = 749,
   }
 }
 

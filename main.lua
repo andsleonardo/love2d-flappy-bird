@@ -6,8 +6,8 @@ function love.load()
   game:load()
 end
 
-function love.update(dt)
-end
-
 function love.draw()
+  local game = game
+
+  game:draw()
 end
