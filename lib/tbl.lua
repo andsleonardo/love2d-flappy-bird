@@ -12,7 +12,7 @@ end
 
 function M.map(t, fn)
   local t2 = {}
-  for i, v in ipairs(t) do t2[i] = fn(v) end
+  for i, v in ipairs(t) do t2[i] = fn(v, i) end
   return t2
 end
 
