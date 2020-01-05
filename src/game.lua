@@ -24,6 +24,10 @@ function game:load()
   G.setDefaultFilter("nearest", "nearest")
 end
 
+function game:update(dt)
+  self.background:update(dt)
+end
+
 function game:draw()
   local push = push
 

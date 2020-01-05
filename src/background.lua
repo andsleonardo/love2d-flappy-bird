@@ -14,14 +14,18 @@ function createLayers()
 
   return tbl.map(
     layerFiles,
-    function(file)
+    function(file, i)
       local img = G.newImage("assets/images/background/" .. file)
-      return BgLayer(img, 100, img:getWidth())
+      return BgLayer(img, 150.0/i)
     end
   )
 end
 
 background.layers = createLayers()
+
+function background:update(dt)
+  tbl.each(self.layers, function(l) l:update(dt) end)
+end
 
 function background:render()
   tbl.reverseEach(self.layers, function(l) l:render() end)
