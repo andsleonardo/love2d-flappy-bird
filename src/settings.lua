@@ -1,19 +1,16 @@
-local windowScalingFactor = 1
-
 local settings = {
   window = {
     title = "FlappyLÖVE",
     fullscreen = false,
     resizable = false,
     vsync = 1,
-    width = 992,
-    height = 749,
+    width = 1280,
+    height = 720,
+    gameDimensions = {
+      width = 512,
+      height = 288
+    }
   }
-}
-
-settings.window.gameDimensions = {
-  width = settings.window.width * windowScalingFactor,
-  height = settings.window.height * windowScalingFactor
 }
 
 return settings
