@@ -1,11 +1,14 @@
 local push = require("lib/push/push")
 local settings = require("src/settings")
 
+local Bird = require("src/classes/Bird")
+
 local window = settings.window
 local virtualWindow = window.gameDimensions
 
 local game = {
-  background = require("src/background")
+  background = require("src/background"),
+  bird = Bird()
 }
 
 function game:load()
@@ -33,6 +36,7 @@ function game:draw()
 
   push:start()
   self.background:render()
+  self.bird:render()
   push:finish()
 end
 
