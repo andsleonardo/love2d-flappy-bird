@@ -21,10 +21,7 @@ end
 
 function Bird:update(dt)
   if game.keysPressed["space"] then
-    local _, linearVelY = self.body:getLinearVelocity()
-    if linearVelY > 0 then
-      self.body:applyLinearImpulse(0, -800)
-    end
+    self.body:applyLinearImpulse(0, -800)
   end
 end
 
