@@ -20,6 +20,12 @@ function Bird:initialize()
 end
 
 function Bird:update(dt)
+  if game.keysPressed["space"] then
+    local _, linearVelY = self.body:getLinearVelocity()
+    if linearVelY > 0 then
+      self.body:applyLinearImpulse(0, -800)
+    end
+  end
 end
 
 function Bird:render()
@@ -28,12 +34,7 @@ function Bird:render()
   G.draw(self.sprite, self:getX(), self:getY())
 end
 
-function Bird:getX()
-  return self.body:getX()
-end
-
-function Bird:getY()
-  return self.body:getY()
-end
+function Bird:getX() return self.body:getX() end
+function Bird:getY() return self.body:getY() end
 
 return Bird

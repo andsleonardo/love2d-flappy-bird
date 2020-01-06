@@ -9,12 +9,15 @@ function game:load()
   self.world = require("src/world")
   self.background = require("src/background")
   self.bird = Bird()
+
+  self.keysPressed = {}
 end
 
 function game:update(dt)
   self.world:update(dt)
   self.background:update(dt)
   self.bird:update(dt)
+  self.keysPressed = {}
 end
 
 function game:draw()

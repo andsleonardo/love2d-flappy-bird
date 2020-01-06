@@ -14,3 +14,7 @@ function love.draw()
   local game = game
   game:draw()
 end
+
+function love.keypressed(key, _scanCode, _isRepeat)
+  game.keysPressed[key] = true
+end
