@@ -1,34 +1,20 @@
 local push = require("lib/push/push")
-local settings = require("src/settings")
 
-local Bird = require("src/classes/Bird")
-
-local window = settings.window
-local virtualWindow = window.gameDimensions
-
-local game = {
-  background = require("src/background"),
-  bird = Bird()
-}
+game = {}
 
 function game:load()
-  local G = love.graphics
-  local push = push
+  local Bird = require("src/classes/Bird")
 
-  push:setupScreen(
-    virtualWindow.width, virtualWindow.height,
-    window.width, window.height,
-    {
-      fullscreen = window.fullscreen,
-      resizable = window.resizable
-    }
-  )
-
-  G.setDefaultFilter("nearest", "nearest")
+  self:setupPush()
+  self.world = require("src/world")
+  self.background = require("src/background")
+  self.bird = Bird()
 end
 
 function game:update(dt)
+  self.world:update(dt)
   self.background:update(dt)
+  self.bird:update(dt)
 end
 
 function game:draw()
@@ -40,4 +26,22 @@ function game:draw()
   push:finish()
 end
 
-return game
+function game:setupPush()
+  local settings = require("src/settings")
+
+  local G = love.graphics
+  local push = push
+  local window = settings.window
+  local virtualWindow = window.gameDimensions
+
+  G.setDefaultFilter("nearest", "nearest")
+
+  push:setupScreen(
+    virtualWindow.width, virtualWindow.height,
+    window.width, window.height,
+    {
+      fullscreen = window.fullscreen,
+      resizable = window.resizable
+    }
+  )
+end

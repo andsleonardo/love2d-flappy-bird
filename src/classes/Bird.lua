@@ -1,24 +1,39 @@
 local class = require("lib/middleclass/middleclass")
-local settings = require("src/settings")
-
-local virtualWindow = settings.window.gameDimensions
 
 local Bird = class('Bird')
 
 function Bird:initialize()
   local G = love.graphics
+  local P = love.physics
+
+  local settings = require("src/settings")
+  local virtualWindow = settings.window.gameDimensions
 
   self.sprite = G.newImage("assets/sprites/bird.png")
-  self.width = self.sprite:getWidth()
-  self.height = self.sprite:getHeight()
-  self.x = virtualWindow.width/2 - self.width/2
-  self.y = virtualWindow.height/2 - self.height/2
+
+  local x = virtualWindow.width/2 - self.sprite:getWidth()/2
+  local y = virtualWindow.height/2 - self.sprite:getHeight()/2
+
+  self.body = P.newBody(game.world, x, y, "dynamic")
+  self.shape = P.newCircleShape(self.sprite:getWidth())
+  self.fixture = P.newFixture(self.body, self.shape)
+end
+
+function Bird:update(dt)
 end
 
 function Bird:render()
   local G = love.graphics
 
-  G.draw(self.sprite, self.x, self.y)
+  G.draw(self.sprite, self:getX(), self:getY())
+end
+
+function Bird:getX()
+  return self.body:getX()
+end
+
+function Bird:getY()
+  return self.body:getY()
 end
 
 return Bird
