@@ -24,7 +24,7 @@ end
 function Bird:render()
   local G = love.graphics
 
-  G.draw(self.sprite, self:getX(), self:getY(), self.body:getAngle(), 1, 1, self:getWidth()/2, self:getHeight()/2)
+  G.draw(self.sprite, self:getX(), self:getY(), 0, 1, 1, self:getWidth()/2, self:getHeight()/2)
 end
 
 function Bird:getX() return self.body:getX() end

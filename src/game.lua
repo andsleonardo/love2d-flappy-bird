@@ -8,6 +8,9 @@ function game:load()
   self:setupPush()
   self.world = require("src/world")
   self.background = require("src/background")
+  self.ground = require("src/ground")
+
+  self.ground:load()
   self.bird = Bird()
 
   self.keysPressed = {}
@@ -16,6 +19,7 @@ end
 function game:update(dt)
   self.world:update(dt)
   self.background:update(dt)
+  self.ground:update(dt)
   self.bird:update(dt)
   self.keysPressed = {}
 end
@@ -25,6 +29,7 @@ function game:draw()
 
   push:start()
   self.background:render()
+  self.ground:render()
   self.bird:render()
   push:finish()
 end
