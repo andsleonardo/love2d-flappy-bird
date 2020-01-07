@@ -10,11 +10,7 @@ function Bird:initialize()
   local virtualWindow = settings.window.gameDimensions
 
   self.sprite = G.newImage("assets/sprites/bird.png")
-
-  local x = virtualWindow.width/2 - self.sprite:getWidth()/2
-  local y = virtualWindow.height/2 - self.sprite:getHeight()/2
-
-  self.body = P.newBody(game.world, x, y, "dynamic")
+  self.body = P.newBody(game.world, virtualWindow.width/2, virtualWindow.height/2, "dynamic")
   self.shape = P.newCircleShape(self.sprite:getWidth())
   self.fixture = P.newFixture(self.body, self.shape)
 end
