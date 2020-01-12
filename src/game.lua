@@ -1,44 +1,45 @@
-local push = require("lib/push/push")
-
 game = {}
 
 function game:load()
   local Bird = require("src/classes/Bird")
+  local Ground = require("src/classes/Ground")
+  local Pipe = require("src/classes/Pipe")
 
-  self:setupPush()
-  self.world = require("src/world")
+  setupPush()
+
   self.background = require("src/background")
-  self.ground = require("src/ground")
 
-  self.ground:load()
+  self.ground = Ground()
   self.bird = Bird()
 
   self.keysPressed = {}
 end
 
 function game:update(dt)
-  self.world:update(dt)
   self.background:update(dt)
   self.ground:update(dt)
   self.bird:update(dt)
+
   self.keysPressed = {}
 end
 
 function game:draw()
-  local push = push
+  local push = gPush
 
   push:start()
+
   self.background:render()
   self.ground:render()
   self.bird:render()
+
   push:finish()
 end
 
-function game:setupPush()
-  local settings = require("src/settings")
-
+function setupPush()
   local G = love.graphics
-  local push = push
+  local push = gPush
+
+  local settings = require("src/settings")
   local window = settings.window
   local virtualWindow = window.gameDimensions
 

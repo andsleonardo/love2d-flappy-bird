@@ -1,35 +1,52 @@
-local class = require("lib/middleclass/middleclass")
+local class = gClass
 
 local Bird = class('Bird')
 
+function createImage()
+  local G = love.graphics
+
+  return G.newImage("assets/sprites/bird.png")
+end
+
+Bird.static.sprite = createImage()
+Bird.static.jumpDy = -200
+
 function Bird:initialize()
   local G = love.graphics
-  local P = love.physics
+  local push = gPush
 
-  local settings = require("src/settings")
-  local virtualWindow = settings.window.gameDimensions
+  self.sprite = Bird.sprite
 
-  self.sprite = G.newImage("assets/sprites/bird.png")
-  self.body = P.newBody(game.world, virtualWindow.width/2, virtualWindow.height/2, "dynamic")
-  self.shape = P.newCircleShape(self.sprite:getWidth())
-  self.fixture = P.newFixture(self.body, self.shape)
+  self.x = push:getWidth()/2
+  self.y = push:getHeight()/2
+
+  self.dy = 0
+
+  self.width, self.height = self.sprite:getDimensions()
 end
 
 function Bird:update(dt)
-  if game.keysPressed["space"] then
-    self.body:applyLinearImpulse(0, -800)
+  local ground = game.ground
+
+  self.dy = self.dy + GRAVITY_Y * dt
+  self.y = self.y + self.dy * dt
+
+  if game.keysPressed["space"] then self:jump() end
+
+  -- Bird and ground collision
+  if self.y + self.height/2 >= ground.y then
+    self.y = ground.y - self.height/2
   end
 end
 
 function Bird:render()
   local G = love.graphics
 
-  G.draw(self.sprite, self:getX(), self:getY(), 0, 1, 1, self:getWidth()/2, self:getHeight()/2)
+  G.draw(self.sprite, self.x, self.y, 0, 1, 1, self.width/2, self.height/2)
 end
 
-function Bird:getX() return self.body:getX() end
-function Bird:getY() return self.body:getY() end
-function Bird:getWidth() return self.sprite:getWidth() end
-function Bird:getHeight() return self.sprite:getHeight() end
+function Bird:jump()
+  self.dy = Bird.jumpDy
+end
 
 return Bird
