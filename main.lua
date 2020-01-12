@@ -1,11 +1,16 @@
 gPush = require("lib/push/push")
 gClass = require("lib/middleclass/middleclass")
+gTbl = require("lib/tbl")
 
 require("src/constants")
 require("src/game")
 
 function love.load()
   local game = game
+  local randomseed = math.randomseed
+  local osTime = os.time
+
+  randomseed(osTime())
 
   game:load()
 end

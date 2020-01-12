@@ -3,20 +3,23 @@ game = {}
 function game:load()
   local Bird = require("src/classes/Bird")
   local Ground = require("src/classes/Ground")
-  local Pipe = require("src/classes/Pipe")
 
   setupPush()
 
   self.background = require("src/background")
+  self.pipePairs = require("src/pipe_pairs")
 
   self.ground = Ground()
   self.bird = Bird()
 
   self.keysPressed = {}
+
+  self.pipePairs:load()
 end
 
 function game:update(dt)
   self.background:update(dt)
+  self.pipePairs:update(dt)
   self.ground:update(dt)
   self.bird:update(dt)
 
@@ -29,6 +32,7 @@ function game:draw()
   push:start()
 
   self.background:render()
+  self.pipePairs:render()
   self.ground:render()
   self.bird:render()
 
