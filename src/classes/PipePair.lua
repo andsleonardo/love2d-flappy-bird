@@ -13,6 +13,7 @@ function PipePair:initialize(y1, y2)
   self.x = push:getWidth()
   self.dx = -GAME_SPEED
   self.pipes = {Pipe(y1, "upper"), Pipe(y2, "lower")}
+  self.beaten = false
   self.destroy = false
 end
 
