@@ -8,7 +8,7 @@ local pipePairs = {}
 function pipePairs:load()
   local push = gPush
 
-  self.spawnCountdown = 2
+  self.spawnCountdown = 1.5
   self.gapY = math.random(Pipe.minHeight, push:getHeight() - game.ground.height - Pipe.minHeight)
 end
 
@@ -17,7 +17,7 @@ function pipePairs:update(dt)
 
   if self.spawnCountdown < 0 then
     self:spawn()
-    self.spawnCountdown = 2
+    self.spawnCountdown = 1.5
   end
 
   tbl.each(self, function(pair, i) pair:update(dt) end)

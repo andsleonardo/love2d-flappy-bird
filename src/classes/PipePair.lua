@@ -5,7 +5,7 @@ local Pipe = require("src/classes/Pipe")
 
 local PipePair = class("PipePair")
 
-PipePair.static.gap = 80
+PipePair.static.gap = 70
 
 function PipePair:initialize(y1, y2)
   local push = gPush
