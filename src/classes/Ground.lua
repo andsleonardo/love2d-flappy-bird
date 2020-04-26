@@ -1,8 +1,7 @@
 local class = gClass
-
 local Ground = class('Ground')
 
-function createImage()
+local function createImage()
   local G = love.graphics
 
   return G.newImage("assets/images/ground.png")

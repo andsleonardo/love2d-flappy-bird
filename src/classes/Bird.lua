@@ -1,12 +1,9 @@
 local class = gClass
 
-fsm:change('score')
-
 local Bird = class('Bird')
 
 function createImage()
   local G = love.graphics
-
   return G.newImage("assets/sprites/bird.png")
 end
 
@@ -54,7 +51,7 @@ function Bird:update(dt)
       end
 
       if collidedInY and collidedInX then
-        fsm:change("gameOver")
+        game:goTo("gameOver")
       end
 
       -- Bird scoring after going through gap

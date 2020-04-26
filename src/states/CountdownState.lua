@@ -15,7 +15,7 @@ function CountdownState:update(dt)
   self.timer = self.timer - 1 * dt
 
   if self.timer <= 0 then
-    fsm:change('playing')
+    game:goTo('playing')
   end
 end
 

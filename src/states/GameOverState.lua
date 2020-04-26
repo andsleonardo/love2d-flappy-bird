@@ -16,7 +16,7 @@ function GameOverState:update(dt)
   -- Bird and ground collision
   if bird.y + bird.height/2 >= ground.y then
     bird.y = ground.y - bird.height/2
-    fsm:change('score')
+    game:goTo('score')
   end
 end
 

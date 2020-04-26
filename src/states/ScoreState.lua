@@ -8,7 +8,7 @@ end
 
 function ScoreState:update(dt)
   if game.keysPressed['space'] then
-    fsm:change('countdown')
+    game:goTo('countdown')
   end
 end
 

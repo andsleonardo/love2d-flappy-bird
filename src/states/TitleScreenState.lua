@@ -11,7 +11,7 @@ function TitleScreenState:update(dt)
   game.ground:update(dt)
 
   if game.keysPressed['space'] then
-    fsm:change('countdown')
+    game:goTo('countdown')
   end
 end
 

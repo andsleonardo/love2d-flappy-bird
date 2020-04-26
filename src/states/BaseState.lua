@@ -13,8 +13,7 @@
   ourselves in the actual classes.
 ]]
 
-local class = require('lib/middleclass/middleclass')
-
+local class = gClass
 local BaseState = class('BaseState')
 
 function BaseState:initialize()

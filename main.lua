@@ -2,8 +2,9 @@ gPush = require("lib/push/push")
 gClass = require("lib/middleclass/middleclass")
 gTbl = require("lib/tbl")
 
-require("src/constants")
-require("src/game")
+ui = require('src/ui')
+
+local game
 
 local function setupPush()
   local G = love.graphics
@@ -26,33 +27,27 @@ local function setupPush()
 end
 
 function love.load()
-  local game = game
   local randomseed = math.randomseed
   local osTime = os.time
 
-  randomseed(osTime())
   setupPush()
+  randomseed(osTime())
 
-  game:load()
+  game = require("src/Game")()
 end
 
 function love.update(dt)
-  local game = game
-
   game:update(dt)
 end
 
 function love.draw()
-  local game = game
   local push = gPush
 
   push:start()
-  game:draw()
+  game:render()
   push:finish()
 end
 
 function love.keypressed(key, _scanCode, _isRepeat)
-  local game = game
-
   game.keysPressed[key] = true
 end
