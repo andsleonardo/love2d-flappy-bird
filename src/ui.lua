@@ -5,9 +5,10 @@ local function createFonts()
 
   return {
     small = G.newFont("assets/fonts/monogram_extended.ttf", 16),
-    normal = G.newFont("assets/fonts/monogram_extended.ttf", 22),
+    normal = G.newFont("assets/fonts/flappy.ttf", 22),
     large = G.newFont("assets/fonts/monogram_extended.ttf", 30),
-    title = G.newFont("assets/fonts/flappy.ttf", 42)
+    title = G.newFont("assets/fonts/flappy.ttf", 42),
+    timer = G.newFont('assets/fonts/flappy.ttf', 120)
   }
 end
 

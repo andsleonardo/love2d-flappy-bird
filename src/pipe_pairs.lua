@@ -22,12 +22,9 @@ function pipePairs:update(dt)
 
   tbl.each(self, function(pair, i) pair:update(dt) end)
 
-  tbl.each(
-    self,
-    function(pair, i)
-      if pair.destroy then table.remove(self, i) end
-    end
-  )
+  tbl.each(self, function(pair, i)
+    if pair.destroy then table.remove(self, i) end
+  end)
 end
 
 function pipePairs:render()

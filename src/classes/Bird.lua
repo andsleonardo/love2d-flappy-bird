@@ -1,5 +1,7 @@
 local class = gClass
 
+fsm:change('score')
+
 local Bird = class('Bird')
 
 function createImage()
@@ -26,42 +28,40 @@ function Bird:initialize()
 end
 
 function Bird:update(dt)
-  if game.state == "playing" then
-    self.dy = self.dy + GRAVITY_Y * dt
-    self.y = self.y + self.dy * dt
+  self.dy = self.dy + GRAVITY_Y * dt
+  self.y = self.y + self.dy * dt
 
-    if game.keysPressed["space"] then self:jump() end
+  if game.keysPressed["space"] then self:jump() end
 
-    -- Bird and ground collision
-    local ground = game.ground
+  -- Bird and ground collision
+  local ground = game.ground
 
-    if self.y + self.height/2 >= ground.y then
-      self.y = ground.y - self.height/2
-    end
+  if self.y + self.height/2 >= ground.y then
+    self.y = ground.y - self.height/2
+  end
 
-    for _, pair in ipairs(game.pipePairs) do
-      for _, pipe in ipairs(pair.pipes) do
-        -- Bird and pipes collision
-        local collidedInY
-        local collidedInX = self.x + self.width/2 - 4 >= pair.x and
-          self.x - self.width/2 + 4 <= pair.x + pipe.width
+  for _, pair in ipairs(game.pipePairs) do
+    for _, pipe in ipairs(pair.pipes) do
+      -- Bird and pipes collision
+      local collidedInY
+      local collidedInX = self.x + self.width/2 - 4 >= pair.x and
+        self.x - self.width/2 + 4 <= pair.x + pipe.width
 
-        if pipe.sy == 1 then
-          collidedInY = self.y + self.height/2 - 4 >= pipe.y
-        elseif pipe.sy == -1 then
-          collidedInY = self.y - self.height/2 + 4 <= pipe.y
-        end
+      if pipe.sy == 1 then
+        collidedInY = self.y + self.height/2 - 4 >= pipe.y
+      elseif pipe.sy == -1 then
+        collidedInY = self.y - self.height/2 + 4 <= pipe.y
+      end
 
-        if collidedInY and collidedInX then
-          game.state = "gameOver"
-        end
+      if collidedInY and collidedInX then
+        fsm:change("gameOver")
+      end
 
-        -- Bird scoring after going through gap
-        if not pair.beaten then
-          if self.x > pair.x + pipe.width then
-            game.score = game.score + 1
-            pair.beaten = true
-          end
+      -- Bird scoring after going through gap
+      if not pair.beaten then
+        if self.x > pair.x + pipe.width then
+          game.score = game.score + 1
+          pair.beaten = true
         end
       end
     end

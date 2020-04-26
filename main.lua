@@ -5,12 +5,33 @@ gTbl = require("lib/tbl")
 require("src/constants")
 require("src/game")
 
+local function setupPush()
+  local G = love.graphics
+  local push = gPush
+
+  local settings = require("src/settings")
+  local window = settings.window
+  local virtualWindow = window.gameDimensions
+
+  G.setDefaultFilter("nearest", "nearest")
+
+  push:setupScreen(
+    virtualWindow.width, virtualWindow.height,
+    window.width, window.height,
+    {
+      fullscreen = window.fullscreen,
+      resizable = window.resizable
+    }
+  )
+end
+
 function love.load()
   local game = game
   local randomseed = math.randomseed
   local osTime = os.time
 
   randomseed(osTime())
+  setupPush()
 
   game:load()
 end
@@ -23,8 +44,11 @@ end
 
 function love.draw()
   local game = game
+  local push = gPush
 
+  push:start()
   game:draw()
+  push:finish()
 end
 
 function love.keypressed(key, _scanCode, _isRepeat)
