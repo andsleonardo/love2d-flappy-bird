@@ -1,4 +1,5 @@
 local G = love.graphics
+local A = love.audio
 local class = gClass
 
 local Bird = class('Bird')
@@ -9,6 +10,10 @@ end
 
 Bird.static.sprite = createImage()
 Bird.static.jumpDy = -200
+Bird.static.sounds = {
+  flap = A.newSource('assets/sfx/bird-flap.wav', 'static'),
+  hurt = A.newSource('assets/sfx/bird-hurt.wav', 'static')
+}
 
 function Bird:initialize()
   local push = gPush
@@ -48,6 +53,7 @@ function Bird:update(dt)
       end
 
       if collidedInY and collidedInX then
+        Bird.static.sounds.hurt:play()
         game:goTo("gameOver")
       end
 
@@ -70,6 +76,7 @@ end
 
 function Bird:flap()
   self.dy = Bird.jumpDy
+  Bird.static.sounds.flap:play()
 end
 
 return Bird
