@@ -10,34 +10,30 @@ local CountdownState = require('src/states/CountdownState')
 local Bird = require("src/classes/Bird")
 local Ground = require("src/classes/Ground")
 
-local function setupStateMachine()
-  return StateMachine({
-    titleScreen = function() return TitleScreenState() end,
-    countdown = function() return CountdownState() end,
-    playing = function() return PlayingState() end,
-    gameOver = function() return GameOverState() end,
-    score = function() return ScoreState() end,
-  })
-end
-
 return function()
   game = {}
 
+  local function setupStateMachine()
+    return StateMachine({
+      titleScreen = function() return TitleScreenState(game) end,
+      countdown = function() return CountdownState(game) end,
+      playing = function() return PlayingState(game) end,
+      gameOver = function() return GameOverState(game) end,
+      score = function() return ScoreState(game) end,
+    })
+  end
+
+  game.stateMachine = setupStateMachine()
+
   function game:load()
-    game.background = require("src/background")
-    game.pipePairs = require("src/pipe_pairs")
+    self.score = 0
+    self.keysPressed = {}
 
-    game.score = 0
-    game.keysPressed = {}
-    game.bird = Bird()
-    game.ground = Ground()
+    self.bird = Bird()
+    self.ground = Ground()
 
-    game.pipePairs:load()
-
-    game.stateMachine = setupStateMachine()
-    game:goTo('titleScreen', {})
-
-    return game
+    self.background = require("src/background")
+    self.pipePairs = require("src/pipe_pairs")()
   end
 
   function game:update(dt)
@@ -46,17 +42,20 @@ return function()
   end
 
   function game:render()
-    self.background:render()
-    self.bird:render()
-
     self.stateMachine:render()
-
-    self.ground:render()
   end
 
   function game:goTo(stateName, opts)
     self.stateMachine:change(stateName, opts)
   end
 
-  return game:load()
+  function game:reset()
+    self:load()
+    self:goTo('countdown', {})
+  end
+
+  game:load()
+  game:goTo('titleScreen', {})
+
+  return game
 end

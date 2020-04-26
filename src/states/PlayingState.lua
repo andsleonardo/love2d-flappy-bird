@@ -1,12 +1,20 @@
+local G = love.graphics
+local class = gClass
+local game = game
+local push = gPush
+local ui = gUi
+
 local BaseState = require('src/states/BaseState')
 
-local PlayingState = gClass('Playing', BaseState)
+local PlayingState = class('Playing', BaseState)
 
-function PlayingState:initialize()
-  BaseState:initialize()
+function PlayingState:initialize(handler)
+  BaseState:initialize(handler)
 end
 
 function PlayingState:update(dt)
+  local game = self.handler
+
   game.background:update(dt)
   game.pipePairs:update(dt)
   game.ground:update(dt)
@@ -14,16 +22,18 @@ function PlayingState:update(dt)
 end
 
 function PlayingState:render()
-  local G = love.graphics
-  local push = gPush
+  local game = self.handler
 
+  game.background:render()
   game.pipePairs:render()
+  game.bird:render()
+  game.ground:render()
 
-  G.setFont(ui.fonts.title)
-  G.setColor(0, 0, 0, 1)
-  G.printf(game.score, 0, 17, push:getWidth() - 15, "right")
-  G.setColor(1, 1, 1, 1)
-  G.printf(game.score, 0, 15, push:getWidth() - 15, "right")
+  ui:addText(game.score, 0, 15, {
+    font = ui.fonts.title,
+    width = push:getWidth() - 15,
+    align = "right"
+  })
 end
 
 return PlayingState

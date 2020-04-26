@@ -1,9 +1,9 @@
+local G = love.graphics
 local class = gClass
 
 local Bird = class('Bird')
 
 function createImage()
-  local G = love.graphics
   return G.newImage("assets/sprites/bird.png")
 end
 
@@ -11,7 +11,6 @@ Bird.static.sprite = createImage()
 Bird.static.jumpDy = -200
 
 function Bird:initialize()
-  local G = love.graphics
   local push = gPush
 
   self.sprite = Bird.sprite
@@ -28,8 +27,6 @@ function Bird:update(dt)
   self.dy = self.dy + GRAVITY_Y * dt
   self.y = self.y + self.dy * dt
 
-  if game.keysPressed["space"] then self:jump() end
-
   -- Bird and ground collision
   local ground = game.ground
 
@@ -41,13 +38,13 @@ function Bird:update(dt)
     for _, pipe in ipairs(pair.pipes) do
       -- Bird and pipes collision
       local collidedInY
-      local collidedInX = self.x + self.width/2 - 4 >= pair.x and
-        self.x - self.width/2 + 4 <= pair.x + pipe.width
+      local collidedInX = self.x + self.width/2 >= pair.x and
+        self.x - self.width/2 <= pair.x + pipe.width
 
       if pipe.sy == 1 then
-        collidedInY = self.y + self.height/2 - 4 >= pipe.y
+        collidedInY = self.y + self.height/2 >= pipe.y
       elseif pipe.sy == -1 then
-        collidedInY = self.y - self.height/2 + 4 <= pipe.y
+        collidedInY = self.y - self.height/2 <= pipe.y
       end
 
       if collidedInY and collidedInX then
@@ -63,15 +60,15 @@ function Bird:update(dt)
       end
     end
   end
+
+  if game.keysPressed["space"] then self:flap() end
 end
 
 function Bird:render()
-  local G = love.graphics
-
   G.draw(self.sprite, self.x, self.y, 0, 1, 1, self.width/2, self.height/2)
 end
 
-function Bird:jump()
+function Bird:flap()
   self.dy = Bird.jumpDy
 end
 

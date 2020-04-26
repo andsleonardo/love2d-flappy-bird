@@ -1,16 +1,15 @@
-gPush = require("lib/push/push")
 gClass = require("lib/middleclass/middleclass")
+gPush = require("lib/push/push")
 gTbl = require("lib/tbl")
-
-ui = require('src/ui')
+gUi = require('src/ui')
 
 local game
 
-local function setupPush()
-  local G = love.graphics
-  local push = gPush
+local G = love.graphics
+local push = gPush
+local settings = require("src/settings")
 
-  local settings = require("src/settings")
+local function setupPush()
   local window = settings.window
   local virtualWindow = window.gameDimensions
 
@@ -41,8 +40,6 @@ function love.update(dt)
 end
 
 function love.draw()
-  local push = gPush
-
   push:start()
   game:render()
   push:finish()

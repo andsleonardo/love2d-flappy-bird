@@ -1,33 +1,39 @@
+local G = love.graphics
+local class = gClass
+local push = gPush
+local ui = gUi
+
 local BaseState = require('src/states/BaseState')
+local ScoreState = class('ScoreState', BaseState)
 
-local ScoreState = gClass('ScoreState', BaseState)
-
-function ScoreState:initialize()
-  BaseState:initialize()
+function ScoreState:initialize(handler)
+  BaseState:initialize(handler)
 end
 
 function ScoreState:update(dt)
+  local game = self.handler
+
   if game.keysPressed['space'] then
-    game:goTo('countdown')
+    game:reset()
   end
 end
 
 function ScoreState:render()
-  local G = love.graphics
+  local game = self.handler
 
+  game.background:render()
   game.pipePairs:render()
+  game.bird:render()
+  game.ground:render()
 
-  G.setFont(ui.fonts.title)
-  G.setColor(0, 0, 0, 1)
-  G.printf('Score: ' .. game.score, 0, 32, gPush:getWidth(), "center")
-  G.setColor(1, 1, 1, 1)
-  G.printf('Score: ' .. game.score, 0, 30, gPush:getWidth(), "center")
+  ui:addText('SCORE: ' .. game.score, 0, 30, {font = ui.fonts.title})
+  ui:addText('PRESS SPACE TO TRY AGAIN', 0, push:getHeight() - 50)
+end
 
-  G.setFont(ui.fonts.normal)
-  G.setColor(0, 0, 0, 1)
-  G.printf('PRESS SPACE TO TRY AGAIN', 0, 122, gPush:getWidth(), "center")
-  G.setColor(1, 1, 1, 1)
-  G.printf('PRESS SPACE TO TRY AGAIN', 0, 120, gPush:getWidth(), "center")
+function ScoreState:exit()
+  local game = self.handler
+
+  game.score = 0
 end
 
 return ScoreState

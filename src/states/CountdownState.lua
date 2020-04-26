@@ -1,14 +1,27 @@
+local game = game
+local ui = gUi
+local push = gPush
+local tbl = gTbl
+
 local BaseState = require('src/states/BaseState')
 
 local CountdownState = gClass('CountdownState', BaseState)
 
-function CountdownState:initialize()
+function CountdownState:initialize(handler)
+  BaseState:initialize(handler)
+
+  local game = self.handler
+
   self.timer = 3
 
-  BaseState:initialize()
+  tbl.each(game.pipePairs, function(pair, i)
+    table.remove(game.pipePairs, i)
+  end)
 end
 
 function CountdownState:update(dt)
+  local game = self.handler
+
   game.background:update(dt)
   game.ground:update(dt)
 
@@ -20,14 +33,15 @@ function CountdownState:update(dt)
 end
 
 function CountdownState:render()
-  local G = love.graphics
   local ceil = math.ceil
+  local game = self.handler
 
-  G.setFont(ui.fonts.title)
-  G.setColor(0, 0, 0, 1)
-  G.printf(ceil(self.timer), 0, 32, gPush:getWidth(), "center")
-  G.setColor(1, 1, 1, 1)
-  G.printf(ceil(self.timer), 0, 30, gPush:getWidth(), "center")
+  game.background:render()
+  game.bird:render()
+  game.ground:render()
+
+  ui:addText(ceil(self.timer), 0, 30, {font = ui.fonts.title})
+  ui:addText('GET READY...', 0, push:getHeight() - 50)
 end
 
 return CountdownState

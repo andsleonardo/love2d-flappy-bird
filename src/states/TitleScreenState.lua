@@ -1,12 +1,18 @@
+local G = love.graphics
+local class = gClass
+local ui = gUi
+
 local BaseState = require('src/states/BaseState')
 
-local TitleScreenState = gClass('TitleScreenState', BaseState)
+local TitleScreenState = class('TitleScreenState', BaseState)
 
-function TitleScreenState:initialize()
-  BaseState:initialize()
+function TitleScreenState:initialize(handler)
+  BaseState:initialize(handler)
 end
 
 function TitleScreenState:update(dt)
+  local game = self.handler
+
   game.background:update(dt)
   game.ground:update(dt)
 
@@ -16,13 +22,13 @@ function TitleScreenState:update(dt)
 end
 
 function TitleScreenState:render()
-  local G = love.graphics
+  local game = self.handler
 
-  G.setFont(ui.fonts.title)
-  G.setColor(0, 0, 0, 1)
-  G.printf("FlappyLOVE", 0, 32, gPush:getWidth(), "center")
-  G.setColor(1, 1, 1, 1)
-  G.printf("FlappyLOVE", 0, 30, gPush:getWidth(), "center")
+  game.background:render()
+  game.bird:render()
+  game.ground:render()
+
+  ui:addText('FlappyLOVE', 0, 30, {font = ui.fonts.title})
 end
 
 return TitleScreenState
